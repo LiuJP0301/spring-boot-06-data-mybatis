@@ -1,0 +1,54 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<body>
+<div>
+    <input type="text" id="query">
+    <a href="javascript:query()" >搜索</a>
+    <a href="javascript:queryAll()" >搜索全部</a>
+
+</div>
+
+<div>
+    <ul id="book_ul">
+    </ul>
+</div>
+
+</body>
+</html>
+<script>
+    function query() {
+        var value = $("#query").val();
+        $.ajax({
+            url:"/query",
+            data:{
+                "query":value
+            },
+            type:"GET",
+            success:function (data) {
+                $("#book_ul").empty();
+                $.each(data, function (index, value) {
+                    $("#book_ul").append("<li>" + value.city + "</li>");
+                })
+            }
+        });
+    }
+
+    function queryAll() {
+        $.ajax({
+            url:"/queryAll",
+            type:"POST",
+            success:function (data) {
+                $("#book_ul").empty();
+                $.each(data,function (index,value) {
+                    $("#book_ul").append("<li>"+value.city+"</li>");
+                })
+            }
+        });
+    }
+</script>
+</html>

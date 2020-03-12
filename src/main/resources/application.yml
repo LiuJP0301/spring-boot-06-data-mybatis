@@ -1,0 +1,80 @@
+spring:
+
+#  redis:
+#    host: 192.168.43.87
+
+  resources:
+    static-locations: ["/templates/","/resources/","/static/","/public/"]
+
+  freemarker:
+    template-loader-path: classpath:/templates/ #设定模板的加载路径，多个以逗号分隔，默认: ["classpath:/templates/"]
+    cache: false #是否开启template caching.
+    charset: utf-8 #指定编码
+    check-template-location: true #是否检查templates路径是否存在.
+    content-type: text/html #设定Content-Type.
+    expose-request-attributes: false #是否在merge模板的时候，将request属性都添加到model中
+    expose-session-attributes: false #是否在merge模板的时候，将HttpSession属性都添加到model中
+    request-context-attribute: request #设定RequestContext attribute的名.
+    suffix: .ftl #指定后缀5
+
+  data:
+    solr:
+      host: http://localhost:8983/solr/test_core
+
+
+
+  datasource:
+
+
+    #数据源基本配置
+    username: root
+    password: 123
+    url: jdbc:mysql://localhost:3306/mybatis
+    driver-class-name: com.mysql.jdbc.Driver
+
+    #配置Druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #   数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+
+
+    #spring某个版本之后需要加上这句，否则不会自动执行sql文件
+    initialization-mode: always
+
+    # schema.sql中一般存放的是建表语句
+#    schema:
+#      - classpath:sql/department.sql
+#      - classpath:sql/employee.sql
+
+mybatis:
+  # 指定全局配置文件位置
+  config-location: classpath:mybatis/mybatis-config.xml
+  # 指定sql映射文件位置
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+logging:
+  level:
+    com:
+      atguigu:
+        springboot06:
+          mapper: debug
+
